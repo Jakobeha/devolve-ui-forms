@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-![logo](https://raw.githubusercontent.com/Jakobeha/devolve-ui-forms/master/docs/assets/logo.svg)
+![logo](https://raw.githubusercontent.com/Jakobeha/devolve-ui/master/docs/assets/logo.svg)
 
 # devolve-ui-forms: UI elements (buttons, scrollbars, etc.) for devolve-ui
 
