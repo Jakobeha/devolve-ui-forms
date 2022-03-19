@@ -1,0 +1,17 @@
+site_name: devolve-ui-forms
+site_url: https://jakobeha.github.io/devolve-ui-forms
+repo_url: https://github.com/Jakobeha/devolve-ui-forms
+theme:
+  name: slate
+  features:
+    - content.code.annotate
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - codehilite
+extra_css:
+  - assets/styles/theme-adjustments.css
+  - assets/styles/pygments.css
