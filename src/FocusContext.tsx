@@ -11,12 +11,12 @@ const focusContext = createStateContext<FocusState>({ ids: [], nextFreeId: 0, fo
 /**
  * Wrap your UI controls with this to enable focus, and tab and shift-tab to change focus.
  */
-export const FocusProvider = ({ children }: { children: VNode }): VNode => {
-  const [focus] = focusContext.useProvide({
+export const FocusProvider = ({ children }: { children?: VNode }): VNode => {
+  const focus = focusContext.useProvide({
     ids: [],
     nextFreeId: 0,
     focusedIndex: 0
-  })
+  }).v
 
   useInput(({ name, shift }) => {
     if (name === 'tab') {
@@ -41,12 +41,12 @@ export interface MyFocus {
 }
 
 export const useFocus = (): MyFocus => {
-  const [myId, setMyId] = useState(-1)
-  const [focus] = focusContext.useConsume()
+  const myId = useState(-1)
+  const focus = focusContext.useConsume().v
   useEffect(() => {
     // Get id
     const myRealId = focus.nextFreeId++
-    setMyId(myRealId)
+    myId.v = myRealId
     // Add to focusable elements
     focus.ids.push(myRealId)
 
@@ -69,7 +69,7 @@ export const useFocus = (): MyFocus => {
     }
   }, 'on-create')
 
-  const myIndex = focus.ids.indexOf(myId)
+  const myIndex = focus.ids.indexOf(myId.v)
   const focusedIndexModulo = focus.focusedIndex === null
     ? null
     // positive modulo

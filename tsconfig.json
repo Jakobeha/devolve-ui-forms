@@ -1,7 +1,9 @@
 {
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx",
   ],
   "compilerOptions": {
     "strict": true,
@@ -11,7 +13,10 @@
     "jsx": "preserve",
     "jsxImportSource": "@raycenity/devolve-ui",
     "baseUrl": "./",
-    "rootDir": "src",
+    "rootDirs": [
+      "src",
+      "test"
+    ],
     "paths": {
       "*": ["./src/*"]
     },

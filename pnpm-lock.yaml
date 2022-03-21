@@ -5,6 +5,7 @@ specifiers:
   '@raycenity/misc-ts': link:../misc-ts
   '@types/node': ^17.0.8
   '@typescript-eslint/parser': ^4.0.0
+  builtin-modules: ^3.2.0
   colorette: ^2.0.16
   esbuild: ^0.14.9
   eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -21,6 +22,7 @@ dependencies:
 devDependencies:
   '@types/node': 17.0.15
   '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.5.5
+  builtin-modules: 3.2.0
   colorette: 2.0.16
   esbuild: 0.14.19
   eslint: 7.32.0
@@ -773,6 +775,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       fill-range: 7.0.1
+    dev: true
+
+  /builtin-modules/3.2.0:
+    resolution: {integrity: sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==}
+    engines: {node: '>=6'}
     dev: true
 
   /call-bind/1.0.2:

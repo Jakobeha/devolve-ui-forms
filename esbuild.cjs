@@ -5,6 +5,7 @@
 const esbuild = require('esbuild')
 const fs = require('fs')
 const path = require('path')
+const builtinModules = require('builtin-modules')
 
 function readdir (dir) {
   return new Promise((resolve, reject) => {
@@ -46,4 +47,29 @@ traverse('src').then(entryPoints => {
   })
 }).catch(err => {
   console.error('Traversing source files failed', err)
+})
+
+const testEntryPoints = [
+  'test/test.tsx'
+]
+
+const nodeModules = builtinModules.flatMap(moduleName => [moduleName, `node:${moduleName}`])
+
+// Tests
+esbuild.build({
+  entryPoints: testEntryPoints,
+  outbase: 'test',
+  sourcemap: true,
+  bundle: true,
+  minify: false,
+  format: 'esm',
+  target: 'esnext',
+  platform: 'neutral',
+  mainFields: ['module', 'main'],
+  outdir: 'out/test',
+  inject: ['polyfills.js'],
+  watch: process.argv.includes('--watch'),
+  external: nodeModules
+}).catch(err => {
+  console.error('build failed', err)
 })
