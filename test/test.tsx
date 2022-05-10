@@ -8,6 +8,7 @@ const App = (): VNode => (
         <text>Foo bar</text>
         <Button key='Button1' title='Button 1' width={16} />
         <Button key='Button2' title='Button 2' />
+        <Button key='Button3' title='Button 3' width='100% - 1' />
       </vbox>
       <border style='rounded' width='100%' height='100%' />
     </zbox>

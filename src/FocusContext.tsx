@@ -16,14 +16,14 @@ export const FocusProvider = ({ children }: { children?: VNode }): VNode => {
     ids: [],
     nextFreeId: 0,
     focusedIndex: 0
-  }).v
+  })
 
   useInput(({ name, shift }) => {
     if (name === 'tab') {
       if (shift) {
-        focus.focusedIndex = focus.focusedIndex === null ? 0 : focus.focusedIndex - 1
+        focus.focusedIndex.v = focus.focusedIndex.v === null ? 0 : focus.focusedIndex.v - 1
       } else {
-        focus.focusedIndex = focus.focusedIndex === null ? -1 : focus.focusedIndex + 1
+        focus.focusedIndex.v = focus.focusedIndex.v === null ? -1 : focus.focusedIndex.v + 1
       }
     }
   })
@@ -42,43 +42,58 @@ export interface MyFocus {
 
 export const useFocus = (): MyFocus => {
   const myId = useState(-1)
-  const focus = focusContext.useConsume().v
-  useEffect(() => {
-    // Get id
-    const myRealId = focus.nextFreeId++
-    myId.v = myRealId
-    // Add to focusable elements
-    focus.ids.push(myRealId)
+  const focus = focusContext.useConsume()
 
-    return () => {
-      const myIndex = focus.ids.indexOf(myRealId)
-      const focusedIndexModulo = focus.focusedIndex === null
-        ? null
-        // positive modulo
-        : ((focus.focusedIndex % focus.ids.length) + focus.ids.length) % focus.ids.length
+  if (focus === null) {
+    // To keep number of hooks the same
+    useEffect(() => {
+      return () => {}
+    }, { onChange: [focus] })
 
-      if (focus.ids.length === 1) {
-        // No elements left
-        focus.focusedIndex = null
-      } else if (focusedIndexModulo === myIndex) {
-        // Focus the previous element
-        focus.focusedIndex!--
+    return {
+      isFocused: false,
+      makeFocused: () => {
+        console.warn('can\'t make focused because there is no parent FocusProvider')
       }
-      // Remove from focusable elements
-      focus.ids.splice(myIndex, 1)
     }
-  }, 'on-create')
+  } else {
+    useEffect(() => {
+      // Get id
+      const myRealId = focus.nextFreeId.v++
+      myId.v = myRealId
+      // Add to focusable elements
+      focus.ids.push(myRealId)
 
-  const myIndex = focus.ids.indexOf(myId.v)
-  const focusedIndexModulo = focus.focusedIndex === null
-    ? null
-    // positive modulo
-    : ((focus.focusedIndex % focus.ids.length) + focus.ids.length) % focus.ids.length
+      return () => {
+        const myIndex = focus.ids.indexOf(myRealId)
+        const focusedIndexModulo = focus.focusedIndex.v === null
+          ? null
+          // positive modulo
+          : ((focus.focusedIndex.v % focus.ids.length) + focus.ids.length) % focus.ids.length
 
-  return {
-    isFocused: myIndex === focusedIndexModulo,
-    makeFocused: () => {
-      focus.focusedIndex = myIndex
+        if (focus.ids.length === 1) {
+          // No elements left
+          focus.focusedIndex.v = null
+        } else if (focusedIndexModulo === myIndex) {
+          // Focus the previous element
+          focus.focusedIndex.v!--
+        }
+        // Remove from focusable elements
+        focus.ids.splice(myIndex, 1)
+      }
+    }, { onChange: [focus] })
+
+    const myIndex = focus.ids.indexOf(myId.v)
+    const focusedIndexModulo = focus.focusedIndex.v === null
+      ? null
+      // positive modulo
+      : ((focus.focusedIndex.v % focus.ids.length) + focus.ids.length) % focus.ids.length
+
+    return {
+      isFocused: myIndex === focusedIndexModulo,
+      makeFocused: () => {
+        focus.focusedIndex.v = myIndex
+      }
     }
   }
 }
