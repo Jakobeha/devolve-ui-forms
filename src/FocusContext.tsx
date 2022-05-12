@@ -1,4 +1,4 @@
-import { createStateContext, useInput, VNode, React, useState, useEffect } from '@raycenity/devolve-ui'
+import { createStateContext, useInput, VJSX, VNode, React, useState, useEffect } from '@raycenity/devolve-ui'
 
 interface FocusState {
   ids: number[]
@@ -11,7 +11,7 @@ const focusContext = createStateContext<FocusState>({ ids: [], nextFreeId: 0, fo
 /**
  * Wrap your UI controls with this to enable focus, and tab and shift-tab to change focus.
  */
-export const FocusProvider = ({ children }: { children?: VNode }): VNode => {
+export const FocusProvider = ({ children }: { children?: VJSX | VJSX[] }): VNode => {
   const focus = focusContext.useProvide({
     ids: [],
     nextFreeId: 0,
